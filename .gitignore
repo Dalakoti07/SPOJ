@@ -1,3 +1,8 @@
 .vscode
 *.exe
 julka.cpp
+test.cpp
+acode.cpp
+palin.cpp
+eights.cpp
+canton.cpp
