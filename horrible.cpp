@@ -28,11 +28,12 @@ void update(long long lazy[],long long tree[],int s,int e,int index,int a,int b,
     return ;
     if(a>=s and b<=e)
     {
-        tree[index]+=val;
+        tree[index]+=val*(b-a+1);
         if(a!=b)
         {
-            lazy[2*index]+=val;
-            lazy[2*index+1]+=val;
+            int mid=(a+b)/2;
+            lazy[2*index]+=val*(mid-a+1);
+            lazy[2*index+1]+=val*(b-mid);
         }
         return;// this is lazzzy
     }
@@ -44,22 +45,21 @@ void update(long long lazy[],long long tree[],int s,int e,int index,int a,int b,
 
 int query(long long arr[],long long tree[],long long lazy[],int s,int e,int index,int a,int b)
 {
-    if(b<s or a>e)
+    if(b<s or a>e or a>b)
     return 0;
-    if(a>=s and b<=e)
+    if(lazy[index]!=0)
     {
-        if(lazy[index]==0)
-        return tree[index];
-        else
-        {
             tree[index]+=lazy[index];
             if(s!=e)
             {
-                lazy[2*index]+=lazy[index];
-                lazy[2*index+1]+=lazy[index];
+                lazy[2*index]+=(lazy[index]/(b-a+1))*(((a+b)/2)-a+1);	
+                lazy[2*index+1]+=(lazy[index]/(b-a+1))*(b-((a+b)/2));
             }
             lazy[index]=0;
-        }
+    }
+    if(a>=s and b<=e)
+    {
+        return tree[index];
     }
     else
     {
